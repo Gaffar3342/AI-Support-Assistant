@@ -1,0 +1,13 @@
+User message
+↓
+FastAPI endpoint
+↓
+Validate request
+↓
+RAG relevant context bulur
+↓
+AI category/priority/sentiment/reply üretir
+↓
+SQLite’a kaydet
+↓
+JSON response dönß

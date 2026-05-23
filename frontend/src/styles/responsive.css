@@ -1,0 +1,57 @@
+/* Mobile First Approach */
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-2xl: 2rem;
+  }
+
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --spacing-lg: 1rem;
+    --spacing-md: 0.75rem;
+  }
+
+  .text-lg {
+    font-size: 1rem;
+  }
+
+  .text-md {
+    font-size: 0.875rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1280px) {
+  :root {
+    --spacing-2xl: 4rem;
+  }
+
+  .hide-desktop {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none;
+  }
+}
