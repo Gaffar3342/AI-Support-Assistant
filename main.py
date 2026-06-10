@@ -15,7 +15,7 @@ init_db()
 
 @app.get("/")
 def root():
-    return{"message":"Aı Support Assistant is running"}
+    return{"message":"AI Support Assistant is running"}
 
 @app.post("/knowledge/index")
 def index_knowledge_base():

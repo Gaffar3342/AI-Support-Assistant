@@ -1,25 +1,29 @@
-import json 
+import json
 from openai import OpenAI
-from config import OPEN_AI_API_KEY,OPENAI_MODEL,EMBEDDING_MODEL
+from config import OPEN_AI_API_KEY,OPENAI_MODEL
 from utils.logger import logger
 from models.schemas import AIAnalysis
 
 client=openai=OpenAI(api_key=OPEN_AI_API_KEY)
 def analyze_message_with_ai(message:str,context:str)->dict:
-    prompt=f"""   
-    Sen Profesyonel bir müşteri destek analiz uzmanısın.
-    Görev: Kullanıcının mesajını analiz et ve cevap öner.
-    Sadece aşşağıdaki contexti kullan 
-    eğer context yetersiz ise genel ve dikkatli cevap ver.
-    Context: {context}
-    Kullanıcı Mesajı: {message}
-    sadece json formatında cevap ver.
-    Cevap formatı:
+    prompt=f"""
+    You are a professional customer support analysis specialist.
+    Analyze the customer message and suggest a helpful reply.
+    Use the retrieved context when it is relevant. If the context is
+    insufficient, provide a careful general response without inventing facts.
+
+    Retrieved context:
+    {context}
+
+    Customer message:
+    {message}
+
+    Return only valid JSON in this exact format:
     {{
-    "category":"shipping" veya "billing" veya "technical support" veya "general inquiry",
-    "priorty":"low" veya "medium" veya "high",
-    "sentiment":"positive" veya "negative" veya "neutral",
-    "reply":"kullanıcı mesajına uygun profesyonel bir cevap"
+      "category": "shipping" or "billing" or "technical" or "general",
+      "priorty": "low" or "medium" or "high",
+      "sentiment": "positive" or "negative" or "neutral",
+      "reply": "a concise, professional response to the customer"
     }}
     """
     response=client.responses.create(
@@ -32,14 +36,14 @@ def analyze_message_with_ai(message:str,context:str)->dict:
         raw_output=raw_output.replace("```json","").replace("```","").strip()
     elif raw_output.startswith("```"):
         raw_output=raw_output.replace("```","").strip()
-    
+
     if not raw_output:
-        raise ValueError("AI'den geçerli bir cevap alınamadı.")
+        raise ValueError("The AI service returned an empty response.")
     try:
         data=json.loads(raw_output)
     except json.JSONDecodeError as e:
         logger.error(f"JSON decode error: {e}")
-        raise ValueError("AI cevabı JSON formatında değil.")
+        raise ValueError("The AI response is not valid JSON.")
     validated=AIAnalysis(**data)
-    
+
     return validated.model_dump()

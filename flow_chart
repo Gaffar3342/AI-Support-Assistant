@@ -4,10 +4,10 @@ FastAPI endpoint
 ↓
 Validate request
 ↓
-RAG relevant context bulur
+Retrieve relevant RAG context
 ↓
-AI category/priority/sentiment/reply üretir
+Generate category, priority, sentiment, and suggested reply
 ↓
-SQLite’a kaydet
+Save the ticket to SQLite
 ↓
-JSON response dönß
+Return a JSON response
